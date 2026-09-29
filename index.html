@@ -22,7 +22,7 @@ KÜBRA GÖNAN UGC PORTFÖYÜ — DÜZENLEME REHBERİ
 1. Metinler: Aşağıdaki Türkçe başlıkları ve paragrafları doğrudan düzenleyin.
 2. Görseller: src="..." yollarını kendi dosyalarınızla değiştirin.
 3. Videolar / ürün galerisi / marka logoları: Dosya sonundaki PORTFOLIO alanını düzenleyin.
-4. Sosyal medya / e-posta: PORTFOLIO.contact alanını düzenleyin.
+4. Telefon / sosyal medya / e-posta: PORTFOLIO.contact alanını düzenleyin.
 5. Renkler: CSS başındaki :root değişkenleri.
 6. index.html ve medya dosyaları aynı dizinde olmalıdır.
 7. Medya dosyalarını siteye ayrıca yükleyin; HTML içine base64 gömülmez.
@@ -40,12 +40,12 @@ KÜBRA GÖNAN UGC PORTFÖYÜ — DÜZENLEME REHBERİ
 <section id="surec" class="section wrap process"><div><p class="eyebrow">06 / BİRLİKTE NASIL ÇALIŞIRIZ?</p><h2>Fikirden<br><em>içeriğe.</em></h2><a class="text-link" href="#iletisim">Projenizi konuşalım</a></div><ol><li><h3>İhtiyacı konuşalım</h3><p>Ürününüz, hedef kitleniz, platform ve içerik beklentinizle başlayalım.</p></li><li><h3>Kapsamı netleştirelim</h3><p>İçerik adedi, format, takvim, kullanım hakları ve revizyon kapsamını belirleyelim.</p></li><li><h3>İçeriği üretelim</h3><p>Konsept, çekim ve kurgu aşamalarını kararlaştırdığımız planla ilerletelim.</p></li><li><h3>Değerlendirelim ve teslim edelim</h3><p>Son düzenlemelerle birlikte içerikleri belirlediğimiz kapsamda teslim edelim.</p></li></ol></section>
 <section id="iletisim" class="contact"><div class="wrap"><p class="eyebrow">BİR SONRAKİ HİKÂYE, SİZİN MARKANIZ.</p><h2>Markanız için<br>birlikte <em>içerik üretelim.</em></h2><p>Projenizi ve içerik beklentinizi paylaşın.<br>Markanıza uygun anlatımı birlikte şekillendirelim.</p><div id="contact-links" class="actions"></div><div id="social-links" class="social-links"></div></div></section></main>
 <footer class="wrap"><a class="wordmark" href="#">Kübra Gönan</a><p>UGC Content Creator · Güzellik & bakım</p><a href="#main">Başa dön</a></footer><a class="mobile-cta" href="#iletisim">İş birliği için iletişime geç</a>
-<dialog id="lightbox" aria-label="Ürün görseli"><button class="close" aria-label="Görseli kapat">Kapat ×</button><img alt=""><p></p></dialog><noscript><p>İletişim: <a href="https://www.instagram.com/kubraugc_/">Instagram @kubraugc_</a>. Çalışmaların görüntülenmesi için JavaScript’i etkinleştirin.</p></noscript>
+<dialog id="lightbox" aria-label="Ürün görseli"><button class="close" aria-label="Görseli kapat">Kapat ×</button><img alt=""><p></p></dialog><noscript><p>İletişim: <a href="tel:+905415235692">0541 523 56 92</a>. Çalışmaların görüntülenmesi için JavaScript’i etkinleştirin.</p></noscript>
 <!-- DÜZENLENEBİLİR PORTFÖY İÇERİKLERİ -->
 <script>
 // Düzenlenebilir içerikler. Dosya yolları dist klasörüne göredir.
 window.PORTFOLIO = {
- contact: {email:"", instagram:"https://www.instagram.com/kubraugc_/", tiktok:"https://www.tiktok.com/@kubra.ugc"},
+ contact: {phone:"+905415235692", phoneDisplay:"0541 523 56 92", email:"", instagram:"https://www.instagram.com/kubraugc_/", tiktok:"https://www.tiktok.com/@kubra.ugc"},
  videos: [
  {src:"makeup.mp4",poster:"makeup.webp",title:"Makyaj, adım adım",category:"MAKYAJ",duration:"20 sn",description:"Eyeliner uygulamasını ve ürünün kullanımını gösteren yakın çekimler."},
  {src:"peeling.mp4",poster:"peeling.webp",title:"Cilt bakımına yakından",category:"CİLT BAKIMI",duration:"16 sn",description:"L’Adén peeling ile ürün dokusu ve uygulama adımları."},
@@ -76,10 +76,14 @@ for(const item of data.photos){const btn=el('button','photo-button');btn.type='b
 dialog.querySelector('button').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});dialog.addEventListener('close',()=>previousFocus?.focus());
 if(data.brands.length){document.querySelector('#markalar').hidden=false;for(const brand of data.brands){const n=brand.logo?el('img'):el('span','',brand.name);if(brand.logo){n.src=brand.logo;n.alt=brand.name;n.loading='lazy';}document.querySelector('#brands').append(n);}}
 function link(text,href,cls){const a=el('a',cls,text);a.href=href;if(href.startsWith('https:')){a.target='_blank';a.rel='noopener noreferrer';}return a;}
-const c=data.contact;document.querySelector('#contact-links').append(link('İş birliği için iletişime geç',c.email?'mailto:'+c.email:c.instagram,'button'));
+const c=data.contact;
+const contactUrl=c.phone?'https://wa.me/'+c.phone.replace(/\D/g,''):(c.email?'mailto:'+c.email:c.instagram);
+document.querySelector('#contact-links').append(link('WhatsApp ile iletişime geç',contactUrl,'button'));
+if(c.phone){const phoneLine=el('p','contact-phone');phoneLine.style.marginTop='22px';phoneLine.append(link(c.phoneDisplay||c.phone,'tel:'+c.phone,'text-link'));document.querySelector('#contact-links').after(phoneLine);}
 if(c.email)document.querySelector('#social-links').append(link(c.email,'mailto:'+c.email));
 document.querySelector('#social-links').append(link('Instagram',c.instagram),link('TikTok',c.tiktok));
 const bar=document.querySelector('.mobile-cta');new IntersectionObserver(entries=>{bar.style.visibility=entries[0].isIntersecting?'hidden':'';},{threshold:.15}).observe(document.querySelector('#iletisim'));
 
 </script>
 </body></html>
+
